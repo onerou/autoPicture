@@ -1,13 +1,13 @@
 const { Wechaty } = require('wechaty')
 const generateQrcode = require('qrcode-terminal')
 const startScheduleJob = require('./schedule-job')
+const {parseTime} = require('../utils')
 
 /**
  * 登录微信，并开始执行定时任务
  */
 function startTask() {
   const bot = new Wechaty()
-    startScheduleJob()
     bot.on('scan', (qrcode, status) => {
     console.log(`扫描二维码: ${status}\nhttps://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrcode)}`)
     generateQrcode.generate(qrcode, function(code) {
@@ -19,7 +19,11 @@ function startTask() {
     // 登陆后创建定时任务
     startScheduleJob(bot)
   })
-  bot.on('message', (message) => console.log(`收到消息: ${message}`))
+  bot.on('message', async(message) =>{
+    if (message.type() === bot.Message.Type.Text&&!message.self()||await message.mentionSelf()) {
+      console.log(`${parseTime(new Date().getTime(),'{y}{m}{d}')}收到消息: ${message.text()}(${message.age()}秒前)`)
+    }
+  })
   bot.start()
 }
 
