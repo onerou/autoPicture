@@ -15,7 +15,7 @@ const {parseTime} = require('../utils')
  */
 async function startScheduleJob(bot) {
   // 每日天气
-  schedule.scheduleJob(config.GETUP_TIME, async () => {
+  // schedule.scheduleJob(config.GETUP_TIME, async () => {
     try {
       const browser = await puppeteer.launch()
       // 获取墨迹天气数据
@@ -37,16 +37,16 @@ async function startScheduleJob(bot) {
       let date = utils.getDay(config.MEET_DAY)
       let str =utils.getDate() + '<br>' + '今天是我们在一起的第' + date + '天'
 	  + '<br><br>今日天气早知道<br><br>' + weaTips +'<br><br>' +weaStatus+ '每日一句:<br><br>'+oneWords+'<br><br>'+'------来自最爱你的我'
-      weiba.say(str)
-      const fileBox = FileBox.fromFile('static/'+utils.parseTime(new Date().getTime(),'{y}{m}{d}')+config.TEP_PIC_NAME)
-      const room = await bot.Room.find({topic: '狗逼群'})
-      room.say(fileBox)
+      // weiba.say(str)
+      console.log("TCL: startScheduleJob -> weiba", weiba)
+      const fileBox = FileBox.fromFile('./static/'+utils.parseTime(new Date().getTime(),'{y}{m}{d}')+config.TEP_PIC_NAME)
       weiba.say(fileBox)
+      console.log("TCL: startScheduleJob -> fileBox", fileBox)
     } catch (err) {
       console.log('现在是\n',utils.parseTime(new Date().getTime(),'{y}-{m}-{d}  {h}:{i}:{s}'))
       console.log('错误：\n', err)
     }
-  })
+  // })
 
   // 喝水提醒
   const drinks = config.DRINK_TIME
@@ -57,7 +57,7 @@ async function startScheduleJob(bot) {
         people.say(drink.words)
       } catch (err) {
       console.log('现在是\n', utils.parseTime(new Date().getTime(),'{y}-{m}-{d}  {h}:{i}:{s}'))
-      console.log('喝水提醒错误：\n', err)
+      console.log('错误：\n', err)
       }
     })
   }
