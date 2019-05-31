@@ -47,7 +47,7 @@ async function startScheduleJob(bot) {
         oneWords
       }
       // 重新启动一个浏览器，并截图
-      await getTemp()
+      // await getTemp()
       // 给尾巴发消息
       const weiba = await bot.Contact.find({
         alias: config.ALIAS
