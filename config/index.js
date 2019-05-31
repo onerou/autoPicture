@@ -1,7 +1,7 @@
 module.exports = {
   ONE_HOST: 'http://wufazhuce.com/', // ONE的web版网站
   // MOJI_HOST: "https://tianqi.moji.com/weather/china/shaanxi/chang'an-district", // 中国墨迹天气url
-  MOJI_HOST: "https://tianqi.moji.com/weather/china/fujian/cangshan-district", // 中国墨迹天气url
+  MOJI_HOST: 'https://tianqi.moji.com/weather/china/fujian/cangshan-district', // 中国墨迹天气url
   TEP_HOST: 'http://localhost:4000/temp', // 生成消息图片用的HTML模板页面
   TEP_PIC_NAME: '.png', // 生成的消息图片名
   // MEET_DAY: '2018,3,18', // 和她认识的那一天2016年6月1号
@@ -89,4 +89,4 @@ module.exports = {
       words: '睡觉前也别忘了喝水'
     }
   ]
-}
+};

@@ -56,7 +56,6 @@ async function startScheduleJob(bot) {
       let str = utils.getDate() + '<br>' + '今天是我们在一起的第' + date + '天' +
         '<br><br>今日天气早知道<br><br>' + weaTips + '<br><br>' + weaStatus + '每日一句:<br><br>' + oneWords + '<br><br>' + '------来自最爱你的我'
       weiba.say(str)
-      console.log("TCL: startScheduleJob -> str", str)
       const fileBox = FileBox.fromFile('./static/' + utils.parseTime(new Date().getTime(), '{y}{m}{d}') + config.TEP_PIC_NAME)
       weiba.say(fileBox)
     } catch (err) {
