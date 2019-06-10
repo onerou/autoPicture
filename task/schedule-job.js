@@ -49,9 +49,14 @@ async function startScheduleJob(bot) {
       // 重新启动一个浏览器，并截图
       // await getTemp()
       // 给尾巴发消息
-      const weiba = await bot.Contact.find({
+      let weiba = await bot.Contact.find({
         alias: config.ALIAS
       })
+      if (!weiba) {
+        weiba = await bot.Contact.find({
+          name: config.realName
+        });
+      }
       let date = utils.getDay(config.MEET_DAY)
       let str = utils.getDate() + '<br>' + '今天是我们在一起的第' + date + '天' +
         '<br><br>今日天气早知道<br><br>' + weaTips + '<br><br>' + weaStatus + '每日一句:<br><br>' + oneWords + '<br><br>' + '------来自最爱你的我'
@@ -67,7 +72,12 @@ async function startScheduleJob(bot) {
   // 喝水提醒
   const drinks = config.DRINK_TIME
   for (let drink of drinks) {
-    schedule.scheduleJob(drink.time, async () => {
+    let rule = new schedule.RecurrenceRule();
+    let timeArr = drink.time.split(' ')
+    rule.dayOfWeek = [0, new schedule.Range(1, 4)];
+    rule.hour = timeArr[1];
+    rule.minute = timeArr[0];
+    schedule.scheduleJob(rule, async () => {
       try {
         const people = await bot.Contact.find({
           alias: config.ALIAS
