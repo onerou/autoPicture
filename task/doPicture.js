@@ -50,6 +50,6 @@ async function startScheduleJob(bot) {
             console.log('现在是\n', utils.parseTime(new Date().getTime(), '{y}-{m}-{d}  {h}:{i}:{s}'));
             console.log('错误：\n', err);
         }
-    })
+    });
 }
 module.exports = startScheduleJob;

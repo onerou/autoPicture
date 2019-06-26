@@ -1,17 +1,18 @@
 // 从认识到今天的总天数
 function getDay(date) {
-  const dateNow = new Date()
-  const dateMet = new Date(date)
-  const days = parseInt(Math.abs(dateNow.getTime() - dateMet.getTime()) / 1000 / 60 / 60 / 24)
-  return days
+	const dateNow = new Date()
+	const dateMet = new Date(date)
+	const days = parseInt(Math.abs(dateNow.getTime() - dateMet.getTime()) / 1000 / 60 / 60 / 24)
+	return days
 }
 
 function getDate() {
-  const today = new Date()
-  const todayArr = today.toString().split(' ')
-  return `${todayArr[2]} ${todayArr[1]}.${todayArr[3]}`
+	const today = new Date()
+	const todayArr = today.toString().split(' ')
+	return `${todayArr[2]} ${todayArr[1]}.${todayArr[3]}`
 }
- function parseTime(time, cFormat) {
+
+function parseTime(time, cFormat) {
 	if (arguments.length === 0) {
 		return null
 	}
@@ -36,7 +37,7 @@ function getDate() {
 		let value = formatObj[key]
 		// Note: getDay() returns 0 on Sunday
 		if (key === 'a') {
-			return [ '日', '一', '二', '三', '四', '五', '六' ][value]
+			return ['日', '一', '二', '三', '四', '五', '六'][value]
 		}
 		if (result.length > 0 && value < 10) {
 			value = '0' + value
@@ -46,7 +47,7 @@ function getDate() {
 	return time_str
 }
 module.exports = {
-  getDay,
-  getDate,
-  parseTime
+	getDay,
+	getDate,
+	parseTime
 }

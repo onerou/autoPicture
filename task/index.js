@@ -31,12 +31,12 @@ function startTask() {
   });
   bot.on('message', async (message) => {
     let from = message.from();
+    if (from.payload.alias == config.ALIAS) {
+      tuLingBot(message.text(), text => {
+        from.say(text)
+      })
+    }
     if ((message.type() === bot.Message.Type.Text && !message.self()) || (await message.mentionSelf())) {
-      if (from.payload.alias == config.ALIAS) {
-        tuLingBot(message.text(), text => {
-          from.say(text)
-        })
-      }
       console.log(
         `${parseTime(new Date().getTime(), '{y}/{m}/{d} {h}:{i}:{s}')}  ${from.payload.alias ||
 					from.payload.name}: ${message.text()}(${message.age()}秒前)`

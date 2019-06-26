@@ -10,7 +10,10 @@ async function getOneDetail(page) {
   const oneImg = await activeItem.$eval('.fp-one-imagen', (img) => img.src)
   const oneWords = await activeItem.$eval('.fp-one-cita', (div) => div.innerText)
 
-  return { oneImg, oneWords }
+  return {
+    oneImg,
+    oneWords
+  }
 }
 
 module.exports = getOneData
