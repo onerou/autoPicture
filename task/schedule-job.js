@@ -7,7 +7,6 @@ const config = require('../config')
 const getOneData = require('./get-data-one')
 const getWeatherData = require('./get-data-weather')
 const getTemp = require('./get-data-temp')
-const path = require('path')
 const utils = require('../utils')
 
 /**
@@ -47,22 +46,18 @@ async function startScheduleJob(bot) {
         oneWords
       }
       // 重新启动一个浏览器，并截图
-      // await getTemp()
+      await getTemp()
       // 给尾巴发消息
       let weiba = await bot.Contact.find({
-        alias: config.ALIAS
-      })
-      if (!weiba) {
-        weiba = await bot.Contact.find({
           name: config.realName
         });
+      if (!weiba) {
+        weiba = await bot.Contact.find({
+          alias: config.ALIAS
+        })
       }
-      let date = utils.getDay(config.MEET_DAY)
-      let str = utils.getDate() + '<br>' + '今天是我们在一起的第' + date + '天' +
-        '<br><br>今日天气早知道<br><br>' + weaTips + '<br><br>' + weaStatus + '每日一句:<br><br>' + oneWords + '<br><br>' + '------来自最爱你的我'
-      weiba.say(str)
-      const fileBox = FileBox.fromFile('./static/' + utils.parseTime(new Date().getTime(), '{y}{m}{d}') + config.TEP_PIC_NAME)
-      weiba.say(fileBox)
+      const fileBox =  FileBox.fromFile('./static/' + utils.parseTime(new Date().getTime(), '{y}{m}{d}') + config.TEP_PIC_NAME)
+      await weiba.say(fileBox)
     } catch (err) {
       console.log('现在是\n', utils.parseTime(new Date().getTime(), '{y}-{m}-{d}  {h}:{i}:{s}'))
       console.log('错误：\n', err)

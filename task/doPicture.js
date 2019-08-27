@@ -1,17 +1,11 @@
-const {
-    parseTime
-} = require('../utils');
 const utils = require('../utils');
 const config = require('../config');
 const schedule = require('node-schedule');
 const puppeteer = require('puppeteer');
-const {
-    FileBox
-} = require('file-box');
+
 const getOneData = require('./get-data-one');
 const getWeatherData = require('./get-data-weather');
 const getTemp = require('./get-data-temp');
-const path = require('path');
 async function startScheduleJob(bot) {
     schedule.scheduleJob(config.GETUP_TIME, async () => {
         try {
