@@ -1,12 +1,11 @@
 module.exports = {
   ONE_HOST: 'http://wufazhuce.com/', // ONE的web版网站
-  // MOJI_HOST: "https://tianqi.moji.com/weather/china/shaanxi/chang'an-district", // 中国墨迹天气url
-  MOJI_HOST: 'https://tianqi.moji.com/weather/china/fujian/cangshan-district', // 中国墨迹天气url
+  // MOJI_HOST: 'https://tianqi.moji.com/weather/china/fujian/cangshan-district', // 中国墨迹天气url
+  MOJI_HOST: 'https://tianqi.moji.com/weather/china/hubei/wuhan', // 中国墨迹天气url
   TEP_HOST: 'http://localhost:4000/temp', // 生成消息图片用的HTML模板页面
   TEP_PIC_NAME: '.png', // 生成的消息图片名
-  // MEET_DAY: '2018,3,18', // 和她认识的那一天2016年6月1号
   MEET_DAY: '2019,4,6', // 和她认识的那一天2016年6月1号
-  ALIAS: 'YJ', // 备注姓名
+  ALIAS: '心肝大宝贝', // 备注姓名
   realName: 'J.',
   GETUP_TIME: '30 10 6 * * *', // 每天发送第一条消息的时间，每天6点10分30秒发送
   // DRINK_TIME: [
