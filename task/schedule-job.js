@@ -1,13 +1,11 @@
-const schedule = require('node-schedule')
-const puppeteer = require('puppeteer')
-const {
-  FileBox
-} = require('file-box')
-const config = require('../config')
-const getOneData = require('./get-data-one')
-const getWeatherData = require('./get-data-weather')
-const getTemp = require('./get-data-temp')
-const utils = require('../utils')
+const schedule = require("node-schedule")
+const puppeteer = require("puppeteer")
+const { FileBox } = require("file-box")
+const config = require("../config")
+const getOneData = require("./get-data-one")
+const getWeatherData = require("./get-data-weather")
+const getTemp = require("./get-data-temp")
+const utils = require("../utils")
 
 /**
  * 开始定时任务
@@ -15,25 +13,20 @@ const utils = require('../utils')
  */
 async function startScheduleJob(bot) {
   // 每日天气
+
   schedule.scheduleJob(config.GETUP_TIME, async () => {
     try {
       const browser = await puppeteer.launch()
       // 获取墨迹天气数据
       const pageMoji = await browser.newPage()
       await pageMoji.goto(config.MOJI_HOST)
-      const {
-        weaTips,
-        weaTemp,
-        weaImg,
-        weaStatus
-      } = await getWeatherData(pageMoji)
+      const { weaTips, weaTemp, weaImg, weaStatus } = await getWeatherData(
+        pageMoji
+      )
       // 获取One数据
       const pageOne = await browser.newPage()
       await pageOne.goto(config.ONE_HOST)
-      const {
-        oneImg,
-        oneWords
-      } = await getOneData(pageOne)
+      const { oneImg, oneWords } = await getOneData(pageOne)
       // 关闭浏览器
       await browser.close()
       // 把取到的值赋给变量tempData
@@ -49,18 +42,25 @@ async function startScheduleJob(bot) {
       await getTemp()
       // 给尾巴发消息
       let weiba = await bot.Contact.find({
-          name: config.realName
-        });
+        name: config.realName
+      })
       if (!weiba) {
         weiba = await bot.Contact.find({
           alias: config.ALIAS
         })
       }
-      const fileBox =  FileBox.fromFile('./static/' + utils.parseTime(new Date().getTime(), '{y}{m}{d}') + config.TEP_PIC_NAME)
+      const fileBox = FileBox.fromFile(
+        "./static/" +
+          utils.parseTime(new Date().getTime(), "{y}{m}{d}") +
+          config.TEP_PIC_NAME
+      )
       await weiba.say(fileBox)
     } catch (err) {
-      console.log('现在是\n', utils.parseTime(new Date().getTime(), '{y}-{m}-{d}  {h}:{i}:{s}'))
-      console.log('错误：\n', err)
+      console.log(
+        "现在是\n",
+        utils.parseTime(new Date().getTime(), "{y}-{m}-{d}  {h}:{i}:{s}")
+      )
+      console.log("错误：\n", err)
     }
   })
 
