@@ -1,15 +1,16 @@
 const { Wechaty, config } = require("wechaty")
 const generateQrcode = require("qrcode-terminal")
-const startScheduleJob = require("./schedule-job")
 const { parseTime } = require("../utils")
 const configs = require("../config")
 const tuLingBot = require("./bot")
 const answer = require("./answer")
+const notifier = require("../utils/notifier")
+const login = require("./login")
 /**
  * 登录微信，并开始执行定时任务
  */
 function startTask() {
-  const bot = new Wechaty({
+  global.bot = new Wechaty({
     profile: config.default.DEFAULT_PROFILE,
     name: "YJ"
   })
@@ -23,38 +24,35 @@ function startTask() {
       console.log(code)
     })
   })
-  bot.on("login", async user => {
-    console.log(`用户 ${user} 登录成功`)
-    // 登陆后创建定时任务
-    startScheduleJob(bot)
-    let weiba = await bot.Contact.find({
-      name: configs.realName
-    })
-    if (!weiba) {
-      weiba = await bot.Contact.find({
-        alias: configs.ALIAS
-      })
-    }
-    // weiba && (await weiba.say("jarvis已启动"))
-  })
+  bot.on("login", login)
   bot.on("message", async message => {
     let from = message.from()
+    let to = message.to()
     let text = message.text()
-    // let mentionSelf = message.mentionSelf()
-    // if (
-    //   from.payload.alias == configs.ALIAS ||
-    //   from.payload.name == config.realName
-    // ) {
-
+    let username = from.payload.name
+    let mentionSelf = await message.mentionSelf()
     if (/jarvis/g.exec(text)) {
       if (/^jarvis$/.exec(text))
         from.say(
           from.payload.alias == configs.ALIAS ? "我在，主人" : "是的，我在"
         )
-      if (text.replace(/jarvis/, "").length > 1 && text !== "jarvis已启动") {
-        answer(text.replace(/jarvis/, "")).then(result => {
-          from.say(result)
-        })
+      if (
+        text.replace(/jarvis/, "").length > 1 &&
+        text !== configs.restartText
+      ) {
+        answer(text.replace(/jarvis/, ""), username, from)
+          .then(result => {
+            from.say(result)
+          })
+          .catch(err => {
+            console.log(
+              `${parseTime(
+                new Date().getTime(),
+                "{y}/{m}/{d} {h}:{i}:{s}"
+              )}TCL->answer err`,
+              err
+            )
+          })
       }
 
       // tuLingBot(message.text(), text => {
@@ -67,14 +65,26 @@ function startTask() {
         `./audio/${parseTime(new Date().getTime(), "{y}{m}{d}{h}{i}{s}")}.mp3`
       )
     }
-    // }
     if (
       (message.type() === bot.Message.Type.Text && !message.self()) ||
       (await message.mentionSelf())
     ) {
+      if (
+        from.payload.alias == configs.ALIAS ||
+        from.payload.name == config.realName ||
+        mentionSelf ||
+        to.self()
+      ) {
+        notifier({
+          title: from.payload.alias || from.payload.name,
+          message: message.text()
+        })
+      }
       console.log(
-        `${parseTime(new Date().getTime(), "{y}/{m}/{d} {h}:{i}:{s}")}  ${from
-          .payload.alias ||
+        `${parseTime(
+          new Date().getTime(),
+          "{h}:{i}:{s}"
+        )} ${message.room()} ${from.payload.alias ||
           from.payload.name}: ${message.text()}(${message.age()}秒前)`
       )
     }

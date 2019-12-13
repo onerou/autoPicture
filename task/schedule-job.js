@@ -65,25 +65,31 @@ async function startScheduleJob(bot) {
   })
 
   // 喝水提醒
-  // const drinks = config.DRINK_TIME
-  // for (let drink of drinks) {
-  //   let rule = new schedule.RecurrenceRule();
-  //   let timeArr = drink.time.split(' ')
-  //   rule.dayOfWeek = [0, new schedule.Range(1, 4)];
-  //   rule.hour = timeArr[1];
-  //   rule.minute = timeArr[0];
-  //   schedule.scheduleJob(rule, async () => {
-  //     try {
-  //       const people = await bot.Contact.find({
-  //         alias: config.ALIAS
-  //       })
-  //       people.say(drink.words)
-  //     } catch (err) {
-  //       console.log('现在是\n', utils.parseTime(new Date().getTime(), '{y}-{m}-{d}  {h}:{i}:{s}'))
-  //       console.log('错误：\n', err)
-  //     }
-  //   })
-  // }
+  const drinks = config.DRINK_TIME
+  for (let drink of drinks) {
+    // let rule = new schedule.RecurrenceRule()
+    // let timeArr = drink.time.split(" ")
+    // rule.dayOfWeek = [0, new schedule.Range(1, 4)]
+    // rule.hour = timeArr[1]
+    // rule.minute = timeArr[0]
+    schedule.scheduleJob(drink.time, async () => {
+      try {
+        const people = await bot.Contact.find({
+          alias: config.ALIAS
+        })
+        people.say(drink.words)
+      } catch (err) {
+        console.log(
+          "现在是\n",
+          utils.parseTime(new Date().getTime(), "{y}-{m}-{d}  {h}:{i}:{s}")
+        )
+        console.log("错误：\n", err)
+      }
+    })
+  }
+  schedule.scheduleJob("0 0 1 * * *", () => {
+    shell.exec("pm2 reload all")
+  })
 }
 
 module.exports = startScheduleJob
