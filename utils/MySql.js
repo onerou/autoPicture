@@ -3,9 +3,9 @@ var { parseTime } = require("./index")
 const shell = require("shelljs")
 
 const initMysql = ({
-  host = "localhost",
+  host = "rm-8vbak71itwnhnn62qxo.mysql.zhangbei.rds.aliyuncs.com",
   user = "root",
-  password = "root",
+  password = "Hc19940617",
   port = "3306",
   database = "webchart"
 } = {}) => {

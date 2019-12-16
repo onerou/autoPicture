@@ -151,10 +151,11 @@ answer.set(/删除我今天(.*)点(.*)分的提醒/i, async (regExp, text, name)
   return removeTodo(name, time)
 })
 answer.set(/生成今日图片/i, async (regExp, text, name, from) => {
+  from.say("好的，请稍等")
   return new Promise(async (resolve, reject) => {
     await doPicture(from)
     setTimeout(() => {
-      resolve("好的")
+      resolve()
     })
   })
 })
