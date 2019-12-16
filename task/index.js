@@ -54,7 +54,6 @@ function startTask() {
             )
           })
       }
-
       // tuLingBot(message.text(), text => {
       //   text != "亲爱的，当天请求次数已用完。" && from.say(text)
       // })
@@ -62,7 +61,10 @@ function startTask() {
     if (message.type() == bot.Message.Type.Audio) {
       const fileBox = await message.toFileBox()
       await fileBox.toFile(
-        `./audio/${parseTime(new Date().getTime(), "{y}{m}{d}{h}{i}{s}")}.mp3`
+        `./audio/from.payload.name-${parseTime(
+          new Date().getTime(),
+          "{y}{m}{d}{h}{i}{s}"
+        )}.mp3`
       )
     }
     if (

@@ -10,10 +10,34 @@ const { removeTodo } = require("./todo")
 const doPicture = require("./doPicture")
 const nodeEmail = require("../utils/nodeEmail")
 const { setRestartUser } = require("../utils/MySql")
-answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name) => {
+answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name, from) => {
   let time = parseTime(new Date().getTime())
+  from.say("正在添加记录，请稍后")
+  let flag = await setRestartUser(name, time)
+  return new Promise(resolve => {
+    setTimeout(() => {
+      if (!flag) resolve("重启失败，请联系管理员")
+      resolve("开始重启，请稍后...")
+      shell.exec("pm2 reload all")
+    }, 3000)
+  })
+
   return setRestartUser(name, time)
 })
+answer.set(
+  /更新代码并(重启|重新启动|重启所有进程)/i,
+  async (regExp, text, name, from) => {
+    from.say("正在添加记录，请稍后")
+    let flag = await setRestartUser(name, time)
+    return new Promise(resolve => {
+      setTimeout(() => {
+        if (!flag) resolve("重启失败，请联系管理员")
+        resolve("开始重启，请稍后...")
+        shell.exec("git pull & pm2 reload all")
+      }, 3000)
+    })
+  }
+)
 answer.set(/(.*)(今天是|今天|现在|现在是)什么天气/i, async (regExp, text) => {
   let location = text.match(regExp)[1]
   let time = "now"
@@ -159,6 +183,7 @@ answer.set(/生成今日图片/i, async (regExp, text, name, from) => {
     })
   })
 })
+
 answer.set(
   /给(.*)发邮件，主题是(.*)，内容是(.*)/i,
   async (regExp, text, name, from) => {

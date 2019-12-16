@@ -5,6 +5,7 @@ const TableConfig = require("../config/courseConfig")
 const { parseTime } = require("../utils")
 function setTodo() {
   getTodoList().then(res => {
+    if (!res.map) return
     res.map(v => {
       setSchedule(v.userName, v.time, v.todo)
     })
@@ -21,6 +22,7 @@ function removeTodo(user, time) {
 function setTimeTableTodo() {
   timeTable()
     .then(res => {
+      if (!res.map) return
       res.map((v, i) => {
         if (!v) return
         let Info = TableConfig[i]

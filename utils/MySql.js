@@ -92,7 +92,8 @@ function getTodoList() {
         resolve("数据库错误，请联系管理员")
       }
       connection.end()
-      resolve(result)
+      if (result instanceof Array) resolve(result)
+      resolve([])
     })
   })
 }
@@ -147,7 +148,8 @@ function getRestartUser() {
         resolve("数据库错误，请联系管理员")
       }
       connection.end()
-      resolve(result)
+      if (result instanceof Array) resolve(result)
+      resolve([])
     })
   })
 }
@@ -164,7 +166,7 @@ function setRestartUser(userName, time) {
         )
         resolve("数据库错误，请联系管理员")
       }
-      resolve("好的，准备重启中...")
+      resolve(true)
     })
     connection.end()
     setTimeout(() => {
