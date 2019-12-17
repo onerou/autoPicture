@@ -10,19 +10,19 @@ const { removeTodo } = require("./todo")
 const doPicture = require("./doPicture")
 const nodeEmail = require("../utils/nodeEmail")
 const { setRestartUser } = require("../utils/MySql")
+const shell = require("shelljs")
 answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name, from) => {
   let time = parseTime(new Date().getTime())
   from.say("正在添加记录，请稍后")
   let flag = await setRestartUser(name, time)
   return new Promise(resolve => {
+    if (!flag) resolve("重启失败，请联系管理员")
+    from.say("开始重启，请稍后...")
     setTimeout(() => {
-      if (!flag) resolve("重启失败，请联系管理员")
-      resolve("开始重启，请稍后...")
+      resolve("重启成功")
       shell.exec("pm2 reload all")
     }, 3000)
   })
-
-  return setRestartUser(name, time)
 })
 answer.set(
   /更新代码并(重启|重新启动|重启所有进程)/i,
@@ -30,9 +30,10 @@ answer.set(
     from.say("正在添加记录，请稍后")
     let flag = await setRestartUser(name, time)
     return new Promise(resolve => {
+      if (!flag) resolve("重启失败，请联系管理员")
+      from.say("开始重启，请稍后...")
       setTimeout(() => {
-        if (!flag) resolve("重启失败，请联系管理员")
-        resolve("开始重启，请稍后...")
+        resolve("重启成功")
         shell.exec("git pull & pm2 reload all")
       }, 3000)
     })
