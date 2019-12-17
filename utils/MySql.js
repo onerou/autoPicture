@@ -1,6 +1,5 @@
 var mysql = require("mysql")
 var { parseTime } = require("./index")
-const shell = require("shelljs")
 
 const initMysql = ({
   host = "rm-8vbak71itwnhnn62qxo.mysql.zhangbei.rds.aliyuncs.com",
@@ -26,7 +25,7 @@ function search(message) {
     connection.query(sql, function(err, result) {
       if (err) {
         console.log(
-          `[SELECT ERROR] - ${parseTime(new Date().getTime())}`,
+          `[SELECT ERROR search] - ${parseTime(new Date().getTime())}`,
           err.message
         )
         resolve("数据库错误，请联系管理员")
@@ -66,7 +65,7 @@ function setTodoText(userName, time, todo) {
     connection.query(sql, function(err, result) {
       if (err) {
         console.log(
-          `[SELECT ERROR] - ${parseTime(new Date().getTime())}`,
+          `[SELECT ERROR setTodoText] - ${parseTime(new Date().getTime())}`,
           err.message
         )
         resolve("数据库错误，请联系管理员")
@@ -86,10 +85,10 @@ function getTodoList() {
     connection.query(sql, function(err, result) {
       if (err) {
         console.log(
-          `[SELECT ERROR] - ${parseTime(new Date().getTime())}`,
+          `[SELECT ERROR getTodoList] - ${parseTime(new Date().getTime())}`,
           err.message
         )
-        resolve("数据库错误，请联系管理员")
+        resolve(false)
       }
       connection.end()
       if (result instanceof Array) resolve(result)
@@ -105,7 +104,7 @@ function removeTodoById(id) {
     connection.query(sql, function(err, result) {
       if (err) {
         console.log(
-          `[SELECT ERROR] - ${parseTime(new Date().getTime())}`,
+          `[SELECT ERROR removeTodoById] - ${parseTime(new Date().getTime())}`,
           err.message
         )
         resolve("数据库错误，请联系管理员")
@@ -123,7 +122,9 @@ function removeTodoByTime(userName, time) {
     connection.query(sql, function(err, result) {
       if (err) {
         console.log(
-          `[SELECT ERROR] - ${parseTime(new Date().getTime())}`,
+          `[SELECT ERROR removeTodoByTime] - ${parseTime(
+            new Date().getTime()
+          )}`,
           err.message
         )
         resolve("数据库错误，请联系管理员")
@@ -142,10 +143,10 @@ function getRestartUser() {
     connection.query(sql, function(err, result) {
       if (err) {
         console.log(
-          `[SELECT ERROR] - ${parseTime(new Date().getTime())}`,
+          `[SELECT ERROR getRestartUser] - ${parseTime(new Date().getTime())}`,
           err.message
         )
-        resolve("数据库错误，请联系管理员")
+        resolve(false)
       }
       connection.end()
       if (result instanceof Array) resolve(result)
@@ -161,7 +162,7 @@ function setRestartUser(userName, time) {
     connection.query(sql, function(err, result) {
       if (err) {
         console.log(
-          `[SELECT ERROR] - ${parseTime(new Date().getTime())}`,
+          `[SELECT ERROR setRestartUser] - ${parseTime(new Date().getTime())}`,
           err.message
         )
         resolve("数据库错误，请联系管理员")
@@ -169,9 +170,6 @@ function setRestartUser(userName, time) {
       resolve(true)
     })
     connection.end()
-    setTimeout(() => {
-      shell.exec("pm2 reload all")
-    }, 3000)
   })
 }
 module.exports = {
