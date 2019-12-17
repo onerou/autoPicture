@@ -19,8 +19,8 @@ const goFn = async () => {
       height: 930
     },
     // devtools: true,
-    // headless: false
-    headless: true
+     headless: false
+   // headless: true
   })
   const login = await browser.newPage()
   await login.goto("http://202.114.234.143/authserver/login", {
@@ -93,9 +93,9 @@ const jumpToMy = async () => {
   })
 }
 
-// async function test() {
-//   let testArr = await goFn()
-//   console.log("TCL: test -> testArr", testArr)
-// }
-// test()
+ //async function test() {
+  // let testArr = await goFn()
+  // console.log("TCL: test -> testArr", testArr)
+ //}
+ //test()
 module.exports = goFn
