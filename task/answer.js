@@ -184,7 +184,17 @@ answer.set(/生成今日图片/i, async (regExp, text, name, from) => {
     })
   })
 })
-
+answer.set(/执行命令(.*)/, async (regExp, text, name, from) => {
+  let matchArr = text.match(regExp)
+  from.say("好的，请稍等")
+  shell.exec("start cmd /c " + matchArr[1])
+  return new Promise(async (resolve, reject) => {
+    await doPicture(from)
+    setTimeout(() => {
+      resolve("已运行")
+    })
+  })
+})
 answer.set(
   /给(.*)发邮件，主题是(.*)，内容是(.*)/i,
   async (regExp, text, name, from) => {
