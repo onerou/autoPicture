@@ -7,7 +7,9 @@ module.exports = async function(user) {
   let userNameList = await getRestartUser()
   if (!userNameList) user.say("服务器错误")
   if (userNameList.length == 0) return
-  let lastUser = userNameList[userNameList.length - 1].userName
+  let lastUser = userNameList[userNameList.length - 1]
+  if (!lastUser) return
+  lastUser = lastUser.userName
   let weiba = await bot.Contact.find({
     name: lastUser
   })
