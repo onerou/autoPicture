@@ -4,7 +4,7 @@ const { parseTime } = require("../utils")
 const configs = require("../config")
 const tuLingBot = require("./bot")
 const answer = require("./answer")
-const notifier = require("../utils/notifier")
+// const notifier = require("../utils/notifier")
 const login = require("./login")
 /**
  * 登录微信，并开始执行定时任务
@@ -71,17 +71,27 @@ function startTask() {
       (message.type() === bot.Message.Type.Text && !message.self()) ||
       (await message.mentionSelf())
     ) {
-      if (
-        from.payload.alias == configs.ALIAS ||
-        from.payload.name == config.realName ||
-        mentionSelf ||
-        to.self()
-      ) {
-        notifier({
-          title: from.payload.alias || from.payload.name,
-          message: message.text()
-        })
+      // if (
+      //   from.payload.alias == configs.ALIAS ||
+      //   from.payload.name == config.realName ||
+      //   mentionSelf ||
+      //   to.self()
+      // ) {
+      // notifier({
+      //   title: from.payload.alias || from.payload.name,
+      //   message: message.text()
+      // })
+      // }
+      let messageObj = {
+        userName: from.payload.name,
+        alias: from.payload.alias,
+        message: message.text(),
+        autograph: "",
+        time: parseTime(new Date().getTime(), "{h}:{i}:{s}"),
+        isLogin: true,
+        type: from.payload.alias == configs.ALIAS ? "love" : "friend"
       }
+      if (global.clients[0]) global.clients[0].send(JSON.stringify(messageObj))
       console.log(
         `${parseTime(
           new Date().getTime(),
