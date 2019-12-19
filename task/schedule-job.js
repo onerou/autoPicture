@@ -6,6 +6,7 @@ const getOneData = require("./get-data-one")
 const getWeatherData = require("./get-data-weather")
 const getTemp = require("./get-data-temp")
 const utils = require("../utils")
+const shell = require("shelljs")
 
 /**
  * 开始定时任务

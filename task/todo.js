@@ -31,6 +31,8 @@ function setTimeTableTodo() {
         let remindGo = `要准备去上课咯，${v.room.replace("：", "在")}的${
           v.text
         }`
+        if (remindGo[remindGo.length - 1] == "了")
+          remindGo = remindGo.replace(/了/, "")
         let remindChanging =
           res[i - 1] && res[i - 1].room == v.room
             ? "课间休息喽，喝杯水，提神醒脑，想我就给我发消息哦"
