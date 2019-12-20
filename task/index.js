@@ -93,10 +93,8 @@ function startTask() {
       }
       if (global.clients[0]) global.clients[0].send(JSON.stringify(messageObj))
       console.log(
-        `${parseTime(
-          new Date().getTime(),
-          "{h}:{i}:{s}"
-        )} ${message.room()} ${from.payload.alias ||
+        `${parseTime(new Date().getTime(), "{h}:{i}:{s}")} ${message.room() ||
+          ""} ${from.payload.alias ||
           from.payload.name}: ${message.text()}(${message.age()}秒前)`
       )
     }

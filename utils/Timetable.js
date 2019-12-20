@@ -36,9 +36,8 @@ const goFn = async () => {
       document.querySelector("#password").value = password
       document.getElementById("submitBtn").click()
     }, evalVar)
-    setTimeout(async () => {
-      let answer = await jumpToMy()
-      resolve(answer)
+    jumpToMy().then(result => {
+      resolve(result)
     })
   })
 }
@@ -48,7 +47,7 @@ const jumpToMy = async () => {
     timeout: 60000 //timeout here is 60 seconds
   })
   return new Promise(async resolve => {
-    let corseArr = await my.evaluate(async () => {
+    my.evaluate(async () => {
       let row = 5
       let corses = []
       for (let index = 1; index <= row; index++) {
@@ -56,14 +55,16 @@ const jumpToMy = async () => {
           new Date().getDay() == 0 ? 7 : new Date().getDay()
         }_${index}`
         let divById = document.getElementById(id)
-        let spanDom = divById.querySelector("span")
+        let spanDom = divById
+          ? divById.querySelector("span")
+          : document.querySelector(id + " span")
         let info = null
         if (spanDom) {
           spanDom.click()
-          await new Promise((resolve, reject) => {
+          await new Promise(resolve => {
             setTimeout(() => {
               resolve()
-            }, 1500)
+            }, 1000)
           })
           let fraction = document.getElementById("xf").innerHTML
           let teacher = document.getElementById("skjs").innerHTML
@@ -85,10 +86,9 @@ const jumpToMy = async () => {
         corses.push(info)
       }
       return corses
-    })
-    await global.browser.close()
-    setTimeout(() => {
-      resolve(corseArr)
+    }).then(res => {
+      global.browser.close()
+      resolve(res)
     })
   })
 }

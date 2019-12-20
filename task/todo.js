@@ -22,15 +22,14 @@ function removeTodo(user, time) {
 function setTimeTableTodo() {
   timeTable()
     .then(res => {
+      console.log("TCL: setTimeTableTodo -> res", res)
       if (!res.map) return
       res.map((v, i) => {
         if (!v) return
         let Info = TableConfig[i]
         let isFirstClass = i == 0 || i == 2 || i == 4 || res[i - 1] == null
         let remindMine = isFirstClass ? 40 : 25
-        let remindGo = `要准备去上课咯，${v.room.replace("：", "在")}的${
-          v.text
-        }`
+        let remindGo = `上${v.text}，${v.room.replace("：", "在")}`
         if (remindGo[remindGo.length - 1] == "了")
           remindGo = remindGo.replace(/了/, "")
         let remindChanging =
