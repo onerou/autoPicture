@@ -42,7 +42,7 @@ function startTask() {
       ) {
         answer(text.replace(/jarvis/, ""), username, from)
           .then(result => {
-            from.say(result)
+            result && from.say(result)
           })
           .catch(err => {
             console.log(

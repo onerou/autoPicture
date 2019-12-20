@@ -25,7 +25,7 @@ answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name
   })
 })
 answer.set(
-  /更新代码并(重启|重新启动|重启所有进程)/i,
+  /(更新|拉取)代码并(重启|重新启动|重启所有进程)/i,
   async (regExp, text, name, from) => {
     from.say("正在添加记录，请稍后")
     let flag = await setRestartUser(name, time)

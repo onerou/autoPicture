@@ -22,7 +22,6 @@ function removeTodo(user, time) {
 function setTimeTableTodo() {
   timeTable()
     .then(res => {
-      console.log("TCL: setTimeTableTodo -> res", res)
       if (!res.map) return
       res.map((v, i) => {
         if (!v) return
