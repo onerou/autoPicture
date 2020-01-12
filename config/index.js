@@ -1,7 +1,8 @@
 module.exports = {
   ONE_HOST: "http://wufazhuce.com/", // ONE的web版网站
   // MOJI_HOST: 'https://tianqi.moji.com/weather/china/fujian/cangshan-district', // 中国墨迹天气url
-  MOJI_HOST: "https://tianqi.moji.com/weather/china/hubei/hongshan-district", // 中国墨迹天气url
+  // MOJI_HOST: "https://tianqi.moji.com/weather/china/hubei/hongshan-district", // 中国墨迹天气url
+  MOJI_HOST: "https://tianqi.moji.com/weather/china/fujian/jimei-district", // 中国墨迹天气url
   TEP_HOST: "http://localhost:4000/temp", // 生成消息图片用的HTML模板页面
   TEP_PIC_NAME: ".png", // 生成的消息图片名
   MEET_DAY: "2019,4,6", // 和她认识的那一天2016年6月1号
@@ -17,27 +18,26 @@ module.exports = {
   //   { time: '30 30 17 * * *', words: '晚饭前喝杯水，晚上吃的就少了' },
   //   { time: '30 0 22 * * *', words: '睡觉前也别忘了喝水' }
   // ]
-  DRINK_TIME: [
-    {
-      time: "30 20 6 * * 1-5",
+  DRINK_TIME: [{
+      time: "30 00 9 * * 1-7",
       words: "起床喝水，排毒养颜"
     },
     {
-      time: "30 13 7 * * 1-5",
+      time: "30 13 9 * * 1-7",
       words: "早上记得吃早饭哦"
     },
     {
-      time: "30 10 12 * * 1-5",
+      time: "30 10 12 * * 1-7",
       words: "听说午餐后喝水，能助消化"
     },
-    {
-      time: "30 20 12 * * 1-5",
-      words: "dear，别忘了英语听力打卡"
-    },
-    {
-      time: "30 00 13 * * 1-5",
-      words: "亲爱的，中午要记得午休哦"
-    },
+    // {
+    //   time: "30 20 12 * * 1-5",
+    //   words: "dear，别忘了英语听力打卡"
+    // },
+    // {
+    //   time: "30 00 13 * * 1-5",
+    //   words: "亲爱的，中午要记得午休哦"
+    // },
     // {
     //   time: "30 00 14 * * 1-5",
     //   words: "亲爱的，快起床集合了"
@@ -47,7 +47,7 @@ module.exports = {
       words: "想我要记得给我发消息....o(╯□╰)o"
     },
     {
-      time: "30 30 17 * * 1-5",
+      time: "30 30 17 * * 1-7",
       words: "据说晚饭前喝杯水，能增加食欲"
     },
     // {
@@ -67,7 +67,7 @@ module.exports = {
       words: "姑娘，该洗澡咯"
     },
     {
-      time: "30 00 23 * * 1-5",
+      time: "30 00 23 * * 1-7",
       words: "睡觉前也别忘了喝水"
     }
   ]
