@@ -33,7 +33,7 @@ answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, 
 		from.say('开始重启，请稍后...')
 		setTimeout(() => {
 			resolve('重启成功')
-			shell.exec('git pull & pm2 reload all')
+			shell.exec('cd ../ & git pull & pm2 reload all')
 		}, 3000)
 	})
 })
