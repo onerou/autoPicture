@@ -42,7 +42,7 @@ async function startScheduleJob(from) {
 			from.say(`今日好文：${cont[0].text}
 					  好文链接：${cont[0].url}
 			今日疑问：${cont[1].text}
-					解惑链接：${cont[0].url}
+					解惑链接：${cont[1].url}
 			`)
 		}
 	} catch (err) {
