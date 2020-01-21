@@ -8,7 +8,7 @@ const getWeatherData = require('./get-data-weather')
 const getTemp = require('./get-data-temp')
 async function startScheduleJob(from) {
 	try {
-		const browser = await puppeteer.launch({ devtools: true, headless: false })
+		const browser = await puppeteer.launch()
 		// 获取墨迹天气数据
 		const pageMoji = await browser.newPage()
 		await pageMoji.goto(config.MOJI_HOST)

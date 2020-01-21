@@ -18,7 +18,6 @@ async function getOneDetail(page) {
 			}
 		})
 	})
-	console.log('TCL: getOneDetail -> cont', cont)
 	return {
 		oneImg,
 		oneWords,
