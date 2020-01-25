@@ -4,10 +4,8 @@ const { getNewsUser, changeNewsTitle } = require('../utils/MySql')
 const pushMessage = async (bot) => {
 	setInterval(async () => {
 		let userList = await getNewsUser()
-		console.log('TCL: pushMessage -> userList', userList)
 		let news = await getNews()
 		userList.map((v) => {
-			console.log('TCL: pushMessage -> v', v)
 			if (v.lastTitle != news.title) {
 				botSay(v.user, news)
 			}
