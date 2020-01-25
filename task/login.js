@@ -2,6 +2,7 @@ const startScheduleJob = require('./schedule-job')
 const { setTodo, setTimeTableTodo } = require('./todo')
 const configs = require('../config')
 const { getRestartUser } = require('../utils/MySql')
+const pushMessage = require('./pushMessage')
 module.exports = async function(user) {
 	console.log(`用户 ${user} 登录成功`)
 	let userNameList = await getRestartUser()
@@ -22,6 +23,7 @@ module.exports = async function(user) {
 	weiba && (await weiba.say(configs.restartText))
 	// 登陆后创建定时任务
 	startScheduleJob(global.bot)
+	pushMessage(global.bot)
 	setTodo()
 	// setTimeTableTodo()
 }

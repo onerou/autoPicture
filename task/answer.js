@@ -9,7 +9,7 @@ const { stringToNumber } = require('../utils/utils')
 const { removeTodo } = require('./todo')
 const doPicture = require('./doPicture')
 const nodeEmail = require('../utils/nodeEmail')
-const { setRestartUser } = require('../utils/MySql')
+const { setRestartUser, getNewsUser, setNewsUser } = require('../utils/MySql')
 const getWeatherInfo = require('../utils/weatherOption')
 const shell = require('shelljs')
 answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name, from) => {
@@ -33,7 +33,7 @@ answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, 
 		from.say('开始重启，请稍后...')
 		setTimeout(() => {
 			resolve('重启成功')
-			shell.exec('cd ../ & git pull & pm2 reload all')
+			shell.exec(' git pull & pm2 reload all')
 		}, 3000)
 	})
 })
@@ -207,6 +207,38 @@ answer.set(/查询(.*)最近的天气情况/, async (regExp, text, name, from) =
 		getWeatherInfo(matchArr[1]).then((result) => {
 			console.log('TCL: result', result)
 			resolve(result)
+		})
+	})
+})
+
+answer.set(/查询(.*)最近的天气情况/, async (regExp, text, name, from) => {
+	let matchArr = text.match(regExp)
+	from.say('好的，请稍等')
+	return new Promise(async (resolve, reject) => {
+		getWeatherInfo(matchArr[1]).then((result) => {
+			resolve(result)
+		})
+	})
+})
+answer.set(/查询新闻推送列表/, async (regExp, text, name, from) => {
+	from.say('好的，请稍等')
+	return new Promise(async (resolve, reject) => {
+		getNewsUser().then((result) => {
+			console.log('TCL: result', result)
+			let message = result.map((v, i) => {
+				return `${i + 1}、 ${v.user} `
+			})
+			resolve(message.join('/n'))
+		})
+	})
+})
+answer.set(/添加(.*)(至|到)新闻推送列表/, async (regExp, text, name, from) => {
+	let matchArr = text.match(regExp)
+	from.say('好的，请稍等')
+	return new Promise(async (resolve, reject) => {
+		setNewsUser(matchArr[1]).then((result) => {
+			console.log('TCL: result', result)
+			resolve('添加成功')
 		})
 	})
 })
