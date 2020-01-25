@@ -26,11 +26,10 @@ const botSay = async (user, news) => {
 	}
 	changeNewsTitle(user, news.title)
 	weiba &&
-		weiba.say(`
-	标题：${news.title}
+		weiba.say(`标题：${news.title}
 	描述：${news.dir}
 
-	链接：${news.url}
+	文章链接：${news.url}
 	`)
 }
 
