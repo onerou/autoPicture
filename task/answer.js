@@ -226,9 +226,11 @@ answer.set(/查询新闻推送列表/, async (regExp, text, name, from) => {
 		getNewsUser().then((result) => {
 			console.log('TCL: result', result)
 			let message = result.map((v, i) => {
-				return `${i + 1}、 ${v.user} `
+				return ` 
+					${i + 1}、 ${v.user}
+				`
 			})
-			resolve(message.join('/n'))
+			resolve(message.join(''))
 		})
 	})
 })
