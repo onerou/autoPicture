@@ -102,7 +102,6 @@ answer.set(/今天(有|上)(什么|哪些)课/i, async (regExp, text, name, from
 		try {
 			table = await timeTable()
 		} catch (error) {
-			console.log('TCL: error', error)
 			setTimeout(() => {
 				resolve('教务处网络不佳，请稍后再试')
 			})
@@ -205,7 +204,6 @@ answer.set(/查询(.*)最近的天气情况/, async (regExp, text, name, from) =
 	from.say('好的，请稍等')
 	return new Promise(async (resolve, reject) => {
 		getWeatherInfo(matchArr[1]).then((result) => {
-			console.log('TCL: result', result)
 			resolve(result)
 		})
 	})
@@ -224,7 +222,6 @@ answer.set(/查询新闻推送列表/, async (regExp, text, name, from) => {
 	from.say('好的，请稍等')
 	return new Promise(async (resolve, reject) => {
 		getNewsUser().then((result) => {
-			console.log('TCL: result', result)
 			let message = result.map((v, i) => {
 				return ` 
 					${i + 1}、 ${v.user}
@@ -239,7 +236,6 @@ answer.set(/添加(.*)(至|到)新闻推送列表/, async (regExp, text, name, f
 	from.say('好的，请稍等')
 	return new Promise(async (resolve, reject) => {
 		setNewsUser(matchArr[1]).then((result) => {
-			console.log('TCL: result', result)
 			resolve('添加成功')
 		})
 	})

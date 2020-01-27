@@ -10,7 +10,7 @@ const pushMessage = async (bot) => {
 				botSay(v.user, news)
 			}
 		})
-	}, 30000)
+	}, 60000)
 }
 
 const botSay = async (user, news) => {
