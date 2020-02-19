@@ -5,6 +5,7 @@ const pushMessage = async (bot) => {
 	setInterval(async () => {
 		let userList = await getNewsUser()
 		let news = await getNews()
+		if (userList.length <= 0) return
 		userList.map((v) => {
 			if (v.lastTitle != news.title) {
 				botSay(v.user, news)
