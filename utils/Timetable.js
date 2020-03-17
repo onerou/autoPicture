@@ -37,7 +37,7 @@ const goFn = async () => {
 		login.evaluate(({ username, password }) => {
 			document.querySelector('#username').value = username
 			document.querySelector('#password').value = password
-			document.getElementById('submitBtn').click()
+			document.querySelector('.auth_login_btn ').click()
 		}, evalVar)
 		setTimeout(() => {
 			jumpToMy().then((result) => {
