@@ -25,5 +25,5 @@ module.exports = async function(user) {
 	startScheduleJob(global.bot)
 	pushMessage(global.bot)
 	setTodo()
-	// setTimeTableTodo()
+	setTimeTableTodo()
 }
