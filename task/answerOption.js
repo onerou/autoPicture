@@ -184,14 +184,13 @@ answer.set(/执行命令(.*)/, async (regExp, text, name, from) => {
 	let matchArr = text.match(regExp)
 	from.say('好的，请稍等')
 	return new Promise(async (resolve, reject) => {
-		await doPicture(from)
 		if (!matchArr[1]) {
 			setTimeout(() => {
 				resolve('请输入正确的命令')
 			})
 		}
 		if (matchArr[1]) {
-			exec(matchArr[1], function(error, stdout, stderr) {
+			exec('chcp 6501 && ' + matchArr[1], function(error, stdout, stderr) {
 				resolve(stdout)
 			})
 		}
@@ -216,15 +215,6 @@ answer.set(/查询(.*)最近的天气情况/, async (regExp, text, name, from) =
 	})
 })
 
-// answer.set(/查询(.*)最近的天气情况/, async (regExp, text, name, from) => {
-// 	let matchArr = text.match(regExp)
-// 	from.say('好的，请稍等')
-// 	return new Promise(async (resolve, reject) => {
-// 		getWeatherInfo(matchArr[1]).then((result) => {
-// 			resolve(result)
-// 		})
-// 	})
-// })
 answer.set(/查询新闻推送列表/, async (regExp, text, name, from) => {
 	from.say('好的，请稍等')
 	return new Promise(async (resolve, reject) => {

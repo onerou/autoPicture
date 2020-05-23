@@ -23,7 +23,7 @@ module.exports = async function(user) {
 	weiba && (await weiba.say(configs.restartText))
 	// 登陆后创建定时任务
 	startScheduleJob(global.bot)
-	pushMessage(global.bot)
+	// pushMessage(global.bot)
 	setTodo()
-	setTimeTableTodo()
+	// setTimeTableTodo()
 }
