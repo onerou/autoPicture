@@ -190,7 +190,7 @@ answer.set(/执行命令(.*)/, async (regExp, text, name, from) => {
 			})
 		}
 		if (matchArr[1]) {
-			exec('chcp 6501 && ' + matchArr[1], function(error, stdout, stderr) {
+			exec('chcp 65001 && ' + matchArr[1], function(error, stdout, stderr) {
 				resolve(`${error ? 'error:' : ''}
 				${error ? error : ''}
 
