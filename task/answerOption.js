@@ -12,6 +12,7 @@ const nodeEmail = require('../utils/nodeEmail')
 const { setRestartUser, getNewsUser, setNewsUser } = require('../utils/MySql')
 const getWeatherInfo = require('../utils/weatherOption')
 const shell = require('shelljs')
+var exec = require('child_process').exec
 answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name, from) => {
 	let time = parseTime(new Date().getTime())
 	from.say('正在添加记录，请稍后')
@@ -182,12 +183,18 @@ answer.set(/生成今日图片/i, async (regExp, text, name, from) => {
 answer.set(/执行命令(.*)/, async (regExp, text, name, from) => {
 	let matchArr = text.match(regExp)
 	from.say('好的，请稍等')
-	shell.exec('start cmd /c ' + matchArr[1])
 	return new Promise(async (resolve, reject) => {
 		await doPicture(from)
-		setTimeout(() => {
-			resolve('已运行')
-		})
+		if (!matchArr[1]) {
+			setTimeout(() => {
+				resolve('请输入正确的命令')
+			})
+		}
+		if (matchArr[1]) {
+			exec(matchArr[1], function(error, stdout, stderr) {
+				resolve(stdout)
+			})
+		}
 	})
 })
 answer.set(/给(.*)发邮件，主题是(.*)，内容是(.*)/i, async (regExp, text, name, from) => {
