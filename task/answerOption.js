@@ -37,7 +37,6 @@ answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, 
 				if (!error) resolve('重启成功,请等待')
 				if (!error) shell.exec('pm2 reload all')
 			})
-			shell.exec(' git pull && pm2 reload all')
 		}, 3000)
 	})
 })
