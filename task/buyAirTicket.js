@@ -45,6 +45,16 @@ const searchTicket = async (options) => {
 const searchCity = (city) => {
 	return city_list.filter((v) => v.title.indexOf(city) != -1)
 }
+/**
+ * examples: {
+ *		time: '2020-07-08',
+ *	 	formCity: 'amnl',
+ *	 	toCity: 'sha'
+ *	}
+ *
+ * @param {*} options
+ * @returns
+ */
 const setBuyAirTicketPlan = (options) => {
 	return new Promise((resolve, reject) => {
 		if (!options.time) resolve('请输入时间')
@@ -65,12 +75,6 @@ const setBuyAirTicketPlan = (options) => {
 		if (toCity.length > 1) resolve(`请输入详细到达城市名，比如${toCity.map((v) => v.title).join(',')}`)
 		resolve(`数据格式：${JSON.stringify({ time, formCity, toCity }, null, 4)}`)
 	})
-}
-
-let options = {
-	time: '2020-07-08',
-	formCity: 'amnl',
-	toCity: 'sha'
 }
 module.exports = {
 	setBuyAirTicketPlan
