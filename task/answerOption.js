@@ -14,19 +14,6 @@ const getWeatherInfo = require('../utils/weatherOption')
 const { setBuyAirTicketPlan } = require('../task/buyAirTicket')
 const shell = require('shelljs')
 var exec = require('child_process').exec
-answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name, from) => {
-	let time = parseTime(new Date().getTime())
-	from.say('正在添加记录，请稍后')
-	let flag = await setRestartUser(name, time)
-	return new Promise((resolve) => {
-		if (!flag) resolve('重启失败，请联系管理员')
-		from.say('开始重启，请稍后...')
-		setTimeout(() => {
-			resolve('重启成功')
-			shell.exec('pm2 reload all')
-		}, 3000)
-	})
-})
 answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, async (regExp, text, name, from) => {
 	from.say('正在添加记录，请稍后')
 	let flag = await setRestartUser(name, time)
@@ -50,6 +37,19 @@ answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, 
 				if (!error) shell.exec('pm2 reload all')
 			})
 			shell.exec(' git pull && pm2 reload all')
+		}, 3000)
+	})
+})
+answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name, from) => {
+	let time = parseTime(new Date().getTime())
+	from.say('正在添加记录，请稍后')
+	let flag = await setRestartUser(name, time)
+	return new Promise((resolve) => {
+		if (!flag) resolve('重启失败，请联系管理员')
+		from.say('开始重启，请稍后...')
+		setTimeout(() => {
+			resolve('重启成功')
+			shell.exec('pm2 reload all')
 		}, 3000)
 	})
 })
