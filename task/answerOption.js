@@ -32,10 +32,24 @@ answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, 
 	let flag = await setRestartUser(name, time)
 	return new Promise((resolve) => {
 		if (!flag) resolve('重启失败，请联系管理员')
-		from.say('开始重启，请稍后...')
+		from.say('开始拉取代码，请稍后...')
 		setTimeout(() => {
-			resolve('重启成功')
-			shell.exec(' git pull & pm2 reload all')
+			exec('chcp 65001 && git pull', function(error, stdout, stderr) {
+				let log = `${error ? 'error:' : ''}
+				${error ? error : ''}
+
+				${stdout ? 'stdout:' : ''}
+				${stdout ? stdout : ''}
+				
+				${stderr ? 'stderr:' : ''}
+				${stderr ? stderr : ''}
+				`
+				from.say(log.trim())
+				if (error) resolve('请处理问题后重试')
+				if (!error) resolve('重启成功,请等待')
+				if (!error) shell.exec('pm2 reload all')
+			})
+			shell.exec(' git pull && pm2 reload all')
 		}, 3000)
 	})
 })
