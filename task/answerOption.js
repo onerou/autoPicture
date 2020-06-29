@@ -11,6 +11,7 @@ const doPicture = require('./doPicture')
 const nodeEmail = require('../utils/nodeEmail')
 const { setRestartUser, getNewsUser, setNewsUser } = require('../utils/MySql')
 const getWeatherInfo = require('../utils/weatherOption')
+const { setBuyAirTicketPlan } = require('../task/buyAirTicket')
 const shell = require('shelljs')
 var exec = require('child_process').exec
 answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name, from) => {
@@ -242,6 +243,26 @@ answer.set(/添加(.*)(至|到)新闻推送列表/, async (regExp, text, name, f
 	from.say('好的，请稍等')
 	return new Promise(async (resolve, reject) => {
 		setNewsUser(matchArr[1]).then((result) => {
+			resolve('添加成功')
+		})
+	})
+})
+answer.set(/帮我查询(.*)月(.*)号从(.*)(飞|到)(.*)的机票/, async (regExp, text, name, from) => {
+	let matchArr = text.match(regExp)
+	if (matchArr.some((v) => !v)) {
+		from.say('信息输入不完整，请重新输入')
+		return
+	}
+	from.say('好的，请稍等')
+	if (matchArr[1].length == 1) matchArr[1] = '0' + matchArr[1]
+	if (matchArr[2].length == 1) matchArr[2] = '0' + matchArr[2]
+	let obj = {
+		time: `${new Date().getFullYear()}-${matchArr[1]}-${matchArr[2]}`,
+		formCity: matchArr[3],
+		toCity: matchArr[5]
+	}
+	return new Promise(async (resolve, reject) => {
+		setBuyAirTicketPlan(obj).then((result) => {
 			resolve('添加成功')
 		})
 	})
