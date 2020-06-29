@@ -63,7 +63,7 @@ const setBuyAirTicketPlan = (options) => {
 		let toCity = searchCity(options.toCity)
 		if (toCity.length == 0) resolve('找不到到达城市，请重新输入')
 		if (toCity.length > 1) resolve(`请输入详细到达城市名，比如${toCity.map((v) => v.title).join(',')}`)
-		resolve(`数据格式：${JSON.string({ time, formCity, toCity }, null, 4)}`)
+		resolve(`数据格式：${JSON.stringify({ time, formCity, toCity }, null, 4)}`)
 	})
 }
 
