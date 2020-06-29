@@ -15,6 +15,7 @@ const { setBuyAirTicketPlan } = require('../task/buyAirTicket')
 const shell = require('shelljs')
 var exec = require('child_process').exec
 answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, async (regExp, text, name, from) => {
+	let time = parseTime(new Date().getTime())
 	from.say('正在添加记录，请稍后')
 	let flag = await setRestartUser(name, time)
 	return new Promise((resolve) => {
