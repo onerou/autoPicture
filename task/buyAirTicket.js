@@ -1,12 +1,7 @@
 const puppeteer = require('puppeteer')
 const city_list = require('../utils/city')
 let airUrl = 'http://www.ceair.com/booking/amnl-sha-200708_CNY.html?seriesid=774ad270b93c11eabc27b97e12d1d148'
-const searchTicket = async (options) => {
-	let time = options.time.split('-').join('').slice(2) // 时间戳
-	let formCity = searchCity(options.formCity)
-	if (formCity.length == 0) return '找不到出发城市，请重新输入'
-	if (formCity.length > 1) return `请输入详细城市名，比如${formCity.map((v) => v.title).join(',')}`
-	let toCity = searchCity(options.toCity)
+const searchTicket = async ({ time, formCityCode, toCityCode }, resolve) => {
 	const browser = await puppeteer.launch({
 		defaultViewport: {
 			width: 1400,
@@ -18,7 +13,7 @@ const searchTicket = async (options) => {
 	})
 	const pageAir = await browser.newPage()
 	pageAir
-		.goto(`http://www.ceair.com/booking/${formCity}-${toCity}-${time}_CNY.html`, {
+		.goto(`http://www.ceair.com/booking/${formCityCode}-${toCityCode}-${time}_CNY.html`, {
 			timeout: 1800000 //timeout here is 60 seconds
 		})
 		.then(async () => {
@@ -35,11 +30,11 @@ const searchTicket = async (options) => {
 					let to = item.querySelectorAll('.airport')[1]
 					let arrivalAirport = to.querySelector('time') && to.querySelector('time').textContent
 					let arrivalTime = to.childNodes[1].textContent
-					data += `${departureAirport},${departureTime},${arrivalAirport},${arrivalTime}\n`
+					data += `出发时间:${departureAirport},出发地:${departureTime},目的地:${arrivalAirport},到达时间:${arrivalTime}\n`
 				})
 				return data
 			})
-			console.log('searchTicket -> data', data)
+			resolve(data)
 		})
 }
 const searchCity = (city) => {
@@ -60,11 +55,7 @@ const setBuyAirTicketPlan = (options) => {
 		if (!options.time) resolve('请输入时间')
 		if (!options.formCity) resolve('请输入出发城市名')
 		if (!options.toCity) resolve('请输入到达城市名')
-		try {
-			new Date(options.time)
-		} catch (err) {
-			resolve('请输入正确的时间格式：yyyy-mm-dd')
-		}
+		if (new Date(options.time) == 'Invalid Date') resolve('请输入正确的时间格式：年-月-日')
 		let timeArr = options.time.split('-')
 		let time = timeArr.join('').slice(2) // yy-mm-dd
 		let formCity = searchCity(options.formCity)
@@ -73,7 +64,13 @@ const setBuyAirTicketPlan = (options) => {
 		let toCity = searchCity(options.toCity)
 		if (toCity.length == 0) resolve('找不到到达城市，请重新输入')
 		if (toCity.length > 1) resolve(`请输入详细到达城市名，比如${toCity.map((v) => v.title).join(',')}`)
-		resolve(`数据格式：${JSON.stringify({ time, formCity, toCity }, null, 4)}`)
+		let option = {
+			time,
+			formCityCode: formCity[0].code,
+			toCityCode: toCity[0].code
+		}
+		searchTicket(option, resolve)
+		// resolve(`数据格式：${JSON.stringify(option, null, 4)}`)
 	})
 }
 module.exports = {
