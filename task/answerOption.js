@@ -277,7 +277,7 @@ answer.set(/帮我查询(.*)月(.*)号从(.*)(飞|到)(.*)的机票/, async (reg
 	}
 	return new Promise(async (resolve, reject) => {
 		setBuyAirTicketPlan(obj).then((result) => {
-			resolve('添加成功')
+			resolve(result)
 		})
 	})
 })
