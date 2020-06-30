@@ -34,6 +34,7 @@ const searchTicket = async ({ time, formCityCode, toCityCode }, resolve) => {
 				})
 				return data
 			})
+			await browser.close()
 			resolve(data.trim())
 		})
 }
