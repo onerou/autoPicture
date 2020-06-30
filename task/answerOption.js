@@ -33,10 +33,12 @@ answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, 
 			`
 			from.say(log.trim())
 			if (error) resolve('请处理问题后重试')
-			if (!error) resolve('重启成功,请等待')
-			setTimeout(() => {
-				if (!error) shell.exec('pm2 reload all')
-			}, 3000)
+			if (!error) {
+				setTimeout(() => {
+					shell.exec('pm2 reload all')
+				}, 3000)
+				resolve('重启成功,请等待')
+			}
 		})
 	})
 })
