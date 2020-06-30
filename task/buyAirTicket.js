@@ -30,7 +30,7 @@ const searchTicket = async ({ time, formCityCode, toCityCode }, resolve) => {
 					let to = item.querySelectorAll('.airport')[1]
 					let arrivalAirport = to.querySelector('time') && to.querySelector('time').textContent
 					let arrivalTime = to.childNodes[1].textContent
-					data += `出发时间:${departureTime}\n 出发地:${departureAirport}\n 到达时间:${arrivalAirport}\n 目的地:${arrivalTime}\n`
+					data += ` 出发时间:${departureTime}\n 出发地:${departureAirport}\n 到达时间:${arrivalAirport}\n 目的地:${arrivalTime}\n`
 				})
 				return data
 			})
