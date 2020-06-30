@@ -19,7 +19,7 @@ const searchTicket = async ({ time, formCityCode, toCityCode }, resolve) => {
 		.then(async () => {
 			let data = await pageAir.evaluate(() => {
 				let arr = Array.prototype.slice.call(document.querySelectorAll('.flight'))
-				let data = `\ufeff`
+				let data = `\ufeff `
 				let directAirline = arr.filter((item) => {
 					return item.querySelector('.zzjtzd').textContent === '直达'
 				})
@@ -30,7 +30,7 @@ const searchTicket = async ({ time, formCityCode, toCityCode }, resolve) => {
 					let to = item.querySelectorAll('.airport')[1]
 					let arrivalAirport = to.querySelector('time') && to.querySelector('time').textContent
 					let arrivalTime = to.childNodes[1].textContent
-					data += `出发时间:${departureTime}\n 出发地:${departureAirport}\n 到达时间:${arrivalAirport}\n 目的地:${arrivalTime}`
+					data += `出发时间:${departureTime}\n 出发地:${departureAirport}\n 到达时间:${arrivalAirport}\n 目的地:${arrivalTime}\n`
 				})
 				return data
 			})
