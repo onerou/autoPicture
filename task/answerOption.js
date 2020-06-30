@@ -21,23 +21,23 @@ answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, 
 	return new Promise((resolve) => {
 		if (!flag) resolve('重启失败，请联系管理员')
 		from.say('开始拉取代码，请稍后...')
-		setTimeout(() => {
-			exec('chcp 65001 && git pull', function(error, stdout, stderr) {
-				let log = `${error ? 'error:' : ''}
-				${error ? error : ''}
+		exec('chcp 65001 && git pull', function(error, stdout, stderr) {
+			let log = `${error ? 'error:' : ''}
+			${error ? error : ''}
 
-				${stdout ? 'stdout:' : ''}
-				${stdout ? stdout : ''}
-				
-				${stderr ? 'stderr:' : ''}
-				${stderr ? stderr : ''}
-				`
-				from.say(log.trim())
+			${stdout ? 'stdout:' : ''}
+			${stdout ? stdout : ''}
+			
+			${stderr ? 'stderr:' : ''}
+			${stderr ? stderr : ''}
+			`
+			from.say(log.trim())
+			setTimeout(() => {
 				if (error) resolve('请处理问题后重试')
 				if (!error) resolve('重启成功,请等待')
 				if (!error) shell.exec('pm2 reload all')
-			})
-		}, 3000)
+			}, 3000)
+		})
 	})
 })
 answer.set(/(重启|重新启动|重启所有进程)/, async (regExp, text, name, from) => {
