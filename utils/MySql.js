@@ -193,6 +193,81 @@ function changeNewsTitle(user, title) {
 		connection.end()
 	})
 }
+function addSubscribeUser({ name, time, formCity, toCity }) {
+	let connection = initMysql()
+	connection.connect()
+	var sql = `insert into subscribe_user(name,time,formCity,toCity) values('${name}','${time}','${formCity}','${toCity}');`
+	return new Promise((resolve, reject) => {
+		connection.query(sql, function(err, result) {
+			if (err) {
+				console.log(`[SELECT ERROR setRestartUser] - ${parseTime(new Date().getTime())}`, err.message)
+				resolve('数据库错误，请联系管理员')
+			}
+			resolve('已关注')
+		})
+		connection.end()
+	})
+}
+function getSubscribeUserAllList(user, option) {
+	let connection = initMysql()
+	connection.connect()
+	var sql = `SELECT * FROM subscribe_user;`
+	return new Promise((resolve, reject) => {
+		connection.query(sql, function(err, result) {
+			if (err) {
+				console.log(`[SELECT ERROR setRestartUser] - ${parseTime(new Date().getTime())}`, err.message)
+				resolve('数据库错误，请联系管理员')
+			}
+			resolve(result)
+		})
+		connection.end()
+	})
+}
+function getSubscribeUserListByName(name) {
+	let connection = initMysql()
+	connection.connect()
+	var sql = `SELECT * FROM subscribe_user where name='${name}';`
+	return new Promise((resolve, reject) => {
+		connection.query(sql, function(err, result) {
+			if (err) {
+				console.log(`[SELECT ERROR setRestartUser] - ${parseTime(new Date().getTime())}`, err.message)
+				resolve('数据库错误，请联系管理员')
+			}
+			resolve(result)
+		})
+		connection.end()
+	})
+}
+function removeSubscribeUserByTime(name, time) {
+	let connection = initMysql()
+	connection.connect()
+	var sql = `DELETE FROM subscribe_user where name='${name}' and time='${time}';`
+	return new Promise((resolve, reject) => {
+		connection.query(sql, function(err, result) {
+			if (err) {
+				console.log(`[SELECT ERROR removeTodoByTime] - ${parseTime(new Date().getTime())}`, err.message)
+				resolve('数据库错误，请联系管理员')
+			}
+			connection.end()
+			resolve('已删除')
+		})
+	})
+}
+function removeSubscribeUserById(name, id) {
+	let connection = initMysql()
+	connection.connect()
+	var sql = `DELETE FROM subscribe_user where name='${name}' and id='${id}';`
+	return new Promise((resolve, reject) => {
+		connection.query(sql, function(err, result) {
+			if (err) {
+				console.log(`[SELECT ERROR removeTodoByTime] - ${parseTime(new Date().getTime())}`, err.message)
+				resolve('数据库错误，请联系管理员')
+			}
+			connection.end()
+			resolve('已删除')
+		})
+	})
+}
 module.exports = {
 	search,
 	insert,
@@ -204,5 +279,10 @@ module.exports = {
 	setRestartUser,
 	setNewsUser,
 	getNewsUser,
-	changeNewsTitle
+	changeNewsTitle,
+	addSubscribeUser,
+	getSubscribeUserAllList,
+	getSubscribeUserListByName,
+	removeSubscribeUserByTime,
+	removeSubscribeUserById
 }

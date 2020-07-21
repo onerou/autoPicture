@@ -3,6 +3,7 @@ const { setTodo, setTimeTableTodo } = require('./todo')
 const configs = require('../config')
 const { getRestartUser } = require('../utils/MySql')
 const pushMessage = require('./pushMessage')
+const { startSearchAir } = require('../task/buyAirTicket')
 module.exports = async function(user) {
 	console.log(`用户 ${user} 登录成功`)
 	let userNameList = await getRestartUser()
@@ -25,5 +26,6 @@ module.exports = async function(user) {
 	startScheduleJob(global.bot)
 	// pushMessage(global.bot)
 	setTodo()
+	startSearchAir(global.bot)
 	// setTimeTableTodo()
 }

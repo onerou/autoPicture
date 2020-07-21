@@ -11,12 +11,18 @@ var pinyin = require('node-pinyin')
  */
 const getPlaceInfoRequest = (place) => {
 	return new Promise((resolve, reject) => {
+		let name = pinyin(place, {
+			style: 'normal',
+			heteronym: true
+		})
+		console.log('TCL: getPlaceInfoRequest -> name', name)
 		let placePinyin = pinyin(place, {
-			style: 'normal' // 启用多音字模式
+			style: 'normal'
 		})
 			.reduce((acc, val) => acc.concat(val), [])
 			.join('')
 		let url = `https://tianqi.moji.com/api/citysearch/${placePinyin}`
+		console.log('TCL: getPlaceInfoRequest -> url', url)
 		https
 			.get(url, function(res) {
 				var datas = []
@@ -28,6 +34,7 @@ const getPlaceInfoRequest = (place) => {
 				res.on('end', function() {
 					var buff = Buffer.concat(datas, size)
 					var result = iconv.decode(buff, 'utf8')
+					console.log('TCL: getPlaceInfoRequest -> result', result)
 					resolve(result)
 				})
 			})

@@ -11,7 +11,12 @@ const doPicture = require('./doPicture')
 const nodeEmail = require('../utils/nodeEmail')
 const { setRestartUser, getNewsUser, setNewsUser } = require('../utils/MySql')
 const getWeatherInfo = require('../utils/weatherOption')
-const { setBuyAirTicketPlan } = require('../task/buyAirTicket')
+const {
+	setBuyAirTicketPlan,
+	subscribeAir,
+	searchAllSubscribAir,
+	delSubscribeUserById
+} = require('../task/buyAirTicket')
 const shell = require('shelljs')
 var exec = require('child_process').exec
 answer.set(/(更新|拉取)代码并(重启|重新启动|重启所有进程)/i, async (regExp, text, name, from) => {
@@ -263,7 +268,7 @@ answer.set(/添加(.*)(至|到)新闻推送列表/, async (regExp, text, name, f
 		})
 	})
 })
-answer.set(/帮我查询(.*)月(.*)号从(.*)(飞|到)(.*)的机票/, async (regExp, text, name, from) => {
+answer.set(/查询(.*)月(.*)号从(.*)(飞|到)(.*)的航班/, async (regExp, text, name, from) => {
 	let matchArr = text.match(regExp)
 	if (matchArr.some((v) => !v)) {
 		from.say('信息输入不完整，请重新输入')
@@ -279,6 +284,47 @@ answer.set(/帮我查询(.*)月(.*)号从(.*)(飞|到)(.*)的机票/, async (reg
 	}
 	return new Promise(async (resolve, reject) => {
 		setBuyAirTicketPlan(obj).then((result) => {
+			resolve(result)
+		})
+	})
+})
+answer.set(/关注(.*)月(.*)号从(.*)(飞|到)(.*)的航班/, async (regExp, text, name, from) => {
+	let matchArr = text.match(regExp)
+	if (matchArr.some((v) => !v)) {
+		from.say('信息输入不完整，请重新输入')
+		return
+	}
+	from.say('好的，请稍等')
+	if (matchArr[1].length == 1) matchArr[1] = '0' + matchArr[1]
+	if (matchArr[2].length == 1) matchArr[2] = '0' + matchArr[2]
+	let obj = {
+		name,
+		time: `${new Date().getFullYear()}-${matchArr[1]}-${matchArr[2]}`,
+		formCity: matchArr[3],
+		toCity: matchArr[5]
+	}
+	return new Promise(async (resolve, reject) => {
+		subscribeAir(obj).then((result) => {
+			resolve(result)
+		})
+	})
+})
+answer.set(/我关注的航班/, async (regExp, text, name, from) => {
+	from.say('请稍等,正在查询')
+	return new Promise(async (resolve, reject) => {
+		searchAllSubscribAir(name).then((result) => {
+			resolve(result)
+		})
+	})
+})
+answer.set(/删除关注航班(.*)/, async (regExp, text, name, from) => {
+	let matchArr = text.match(regExp)
+	if (!Number(matchArr[1])) {
+		from.say('请先查询并使用查询数标删除，如删除关注航班7')
+	}
+	from.say('请稍等,正在删除')
+	return new Promise(async (resolve, reject) => {
+		delSubscribeUserById(name, matchArr[1]).then((result) => {
 			resolve(result)
 		})
 	})
