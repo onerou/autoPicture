@@ -1,4 +1,4 @@
-const startScheduleJob = require('./schedule-job')
+const startScheduleJobDO = require('./schedule-job')
 const { setTodo, setTimeTableTodo } = require('./todo')
 const configs = require('../config')
 const { getRestartUser } = require('../utils/MySql')
@@ -23,9 +23,9 @@ module.exports = async function(user) {
 	if (user.payload.name == lastUser) weiba = user
 	weiba && (await weiba.say(configs.restartText))
 	// 登陆后创建定时任务
-	startScheduleJob(global.bot)
+	startScheduleJobDO(bot)
 	// pushMessage(global.bot)
 	setTodo()
-	startSearchAir(global.bot)
+	startSearchAir(bot)
 	// setTimeTableTodo()
 }
