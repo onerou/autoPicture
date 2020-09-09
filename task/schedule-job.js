@@ -38,9 +38,14 @@ async function startScheduleJob(bot) {
 		// rule.minute = timeArr[0]
 		schedule.scheduleJob(drink.time, async () => {
 			try {
-				const people = await bot.Contact.find({
-					alias: config.ALIAS
+				let people = await bot.Contact.find({
+					name: config.realName
 				})
+				if (!people) {
+					people = await bot.Contact.find({
+						alias: config.ALIAS
+					})
+				}
 				people.say(drink.words)
 			} catch (err) {
 				console.log('现在是\n', utils.parseTime(new Date().getTime(), '{y}-{m}-{d}  {h}:{i}:{s}'))
