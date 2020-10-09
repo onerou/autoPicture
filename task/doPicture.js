@@ -50,7 +50,7 @@ async function startScheduleJob(from) {
 					解惑链接：${cont[1].url}
 			`)
 			if(ydData.videourl){
-				const videoBox = FileBox.fromUrl(ydData.videourl)
+				const videoBox = FileBox.fromUrl(ydData.videourl.split[0])
 				from.say(videoBox)
 			}
 			if(ydData.audiourl){
