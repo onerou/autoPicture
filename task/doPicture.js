@@ -5,7 +5,10 @@ const puppeteer = require('puppeteer')
 const { FileBox } = require('file-box')
 const getOneData = require('./get-data-one')
 const getWeatherData = require('./get-data-weather')
+const getydData = require('./get-data-yd') // 获取有道每日一句
 const getTemp = require('./get-data-temp')
+var exec = require('child_process').exec
+
 async function startScheduleJob(from) {
 	try {
 		const browser = await puppeteer.launch()
@@ -19,6 +22,7 @@ async function startScheduleJob(from) {
 			timeout: 1800000 //timeout here is 60 seconds
 		})
 		const { oneImg, oneWords, cont } = await getOneData(pageOne)
+		const ydData  = getydData()
 		// 关闭浏览器
 		await browser.close()
 		// 把取到的值赋给变量tempData
@@ -29,14 +33,15 @@ async function startScheduleJob(from) {
 			weaStatus,
 			oneImg,
 			wind,
-			oneWords
+			oneWords,
+			ydData
 		}
 		// 重新启动一个浏览器，并截图
 		await getTemp()
 		// 给尾巴发消息
 		if (from) {
 			const fileBox = FileBox.fromFile(
-				'./static/' + utils.parseTime(new Date().getTime(), '{y}{m}{d}') + config.TEP_PIC_NAME
+				utils.parseTime(new Date().getTime(), '{y}{m}{d}') + config.TEP_PIC_NAME
 			)
 			from.say(fileBox)
 			from.say(`今日好文：${cont[0].text}
@@ -44,6 +49,9 @@ async function startScheduleJob(from) {
 			今日疑问：${cont[1].text}
 					解惑链接：${cont[1].url}
 			`)
+			setTimeout(() => {
+				exec('del '+utils.parseTime(new Date().getTime(), '{y}{m}{d}') + config.TEP_PIC_NAME)
+			}, 20000);
 		}
 	} catch (err) {
 		from.say('生成图片失败，请联系管理员')

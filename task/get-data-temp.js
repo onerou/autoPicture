@@ -21,7 +21,6 @@ async function getTemplate(
   await page.goto(config.TEP_HOST)
   await page.screenshot({
     path: path.join(
-      "static/" +
         parseTime(+new Date().getTime(), "{y}{m}{d}") +
         config.TEP_PIC_NAME
     )
