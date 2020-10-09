@@ -49,6 +49,14 @@ async function startScheduleJob(from) {
 			今日疑问：${cont[1].text}
 					解惑链接：${cont[1].url}
 			`)
+			if(ydData.videourl){
+				const videoBox = FileBox.fromUrl(ydData.videourl)
+				from.say(videoBox)
+			}
+			if(ydData.audiourl){
+				const audioBox = FileBox.fromUrl(ydData.audiourl)
+				from.say(audioBox)
+			}
 			setTimeout(() => {
 				exec('del '+utils.parseTime(new Date().getTime(), '{y}{m}{d}') + config.TEP_PIC_NAME)
 			}, 20000);

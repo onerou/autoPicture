@@ -7,7 +7,9 @@ var getYdWord = async function(words) {
         english: todayData.title,   //这是英语
         image: todayData.image[0],  //图片
         mp3: todayData.voice,       //发音
-        source: todayData.source    //出自哪里
+        source: todayData.source?"———— "+todayData.source:'',    //出自哪里
+        videourl:todayData.videourl,
+        audiourl:todayData.audiourl
     }
     return ydWord
   }
