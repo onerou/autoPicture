@@ -22,7 +22,7 @@ async function startScheduleJob(from) {
 			timeout: 1800000 //timeout here is 60 seconds
 		})
 		const { oneImg, oneWords, cont } = await getOneData(pageOne)
-		const ydData  = getydData()
+		const ydData  = await getydData()
 		// 关闭浏览器
 		await browser.close()
 		// 把取到的值赋给变量tempData
