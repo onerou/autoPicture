@@ -1,7 +1,5 @@
 .DS_Store
-node_modules
 /dist
-YJ.memory-card.json
 
 # local env files
 .env.local
@@ -22,4 +20,5 @@ yarn-error.log*
 *.sw*
 node_modules
 YJ.memory-card.json
+package-lock.json
 
