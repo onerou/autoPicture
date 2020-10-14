@@ -57,22 +57,11 @@ function startTask() {
 		}
 		if (message.type() == bot.Message.Type.Audio) {
 			const fileBox = await message.toFileBox()
-			await fileBox.toFile(
-				`./audio/from.payload.name-${parseTime(new Date().getTime(), '{y}{m}{d}{h}{i}{s}')}.mp3`
-			)
+			// await fileBox.toFile(
+			// 	`./audio/from.payload.name-${parseTime(new Date().getTime(), '{y}{m}{d}{h}{i}{s}')}.mp3`
+			// )
 		}
 		if ((message.type() === bot.Message.Type.Text && !message.self()) || (await message.mentionSelf())) {
-			// if (
-			//   from.payload.alias == configs.ALIAS ||
-			//   from.payload.name == config.realName ||
-			//   mentionSelf ||
-			//   to.self()
-			// ) {
-			// notifier({
-			//   title: from.payload.alias || from.payload.name,
-			//   message: message.text()
-			// })
-			// }
 			let messageObj = {
 				userName: from.payload.name,
 				alias: from.payload.alias,
