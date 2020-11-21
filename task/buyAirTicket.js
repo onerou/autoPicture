@@ -18,8 +18,8 @@ const searchTicket = async ({ time, formCityCode, toCityCode }) => {
       height: 830,
     },
     // devtools: true,
-    headless: false,
-    // headless: true
+    // headless: false,
+    headless: true,
   });
   const pageAir = await browser.newPage();
   return new Promise((resolve) => {
