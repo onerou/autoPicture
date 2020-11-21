@@ -14,6 +14,7 @@ const goFn = async () => {
     // application specific logging, throwing an error, or other logic here
   });
   global.browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
     defaultViewport: {
       width: 1400,
       height: 930,
