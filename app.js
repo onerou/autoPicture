@@ -14,7 +14,7 @@ log4js.configure({
   // 只有错误时error级别才会写入文件
   categories: { default: { appenders: ["globalError"], level: "error" } },
 });
-const logger = log4js.getLogger("cheese");
+global.logger = log4js.getLogger("cheese");
 
 global.clients = [];
 ws.on("connection", (client) => {

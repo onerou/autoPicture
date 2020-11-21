@@ -78,6 +78,9 @@ async function startScheduleJob(from) {
       "现在是\n",
       utils.parseTime(new Date().getTime(), "{y}-{m}-{d}  {h}:{i}:{s}")
     );
+    logger.error(
+      utils.parseTime(new Date().getTime(), "{y}-{m}-{d}  {h}:{i}:{s}") + err
+    );
     console.log("错误：\n", err);
   }
 }
