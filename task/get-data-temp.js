@@ -12,7 +12,7 @@ async function getTemplate(
   oneWords
 ) {
   const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: ["--no-sandbox"],
     defaultViewport: {
       width: 375,
       height: 667,
