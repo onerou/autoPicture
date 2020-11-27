@@ -42,7 +42,7 @@ ws.on("connection", (client) => {
 const app = express();
 app.use(express.static("views"));
 app.set("view engine", "pug");
-app.use(async (ctx, next) => {
+app.use(async (req, res, next) => {
   try {
     await next();
   } catch (e) {
