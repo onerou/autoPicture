@@ -19,6 +19,6 @@ yarn-error.log*
 *.sln
 *.sw*
 node_modules
-YJ.memory-card.json
+*.memory-card.json
 package-lock.json
 
