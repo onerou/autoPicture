@@ -24,7 +24,9 @@ function startTask() {
   bot.on("message", async (message) => {
     let from = message.from();
     let to = message.to();
-    let text = message.text()?.toLowerCase();
+    let text = message.text().toLowerCase
+      ? message.text().toLowerCase()
+      : message.text();
     let username = from.payload.name;
     let mentionSelf = await message.mentionSelf();
     if (/jarvis/g.exec(text)) {
