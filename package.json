@@ -25,7 +25,7 @@
 		"puppeteer": "^1.20.0",
 		"qrcode-terminal": "^0.12.0",
 		"shelljs": "^0.8.3",
-		"wechaty": "^0.27.60",
+		"wechaty": "^1.20.2",
 		"wechaty-puppet": "^0.14.1"
 	}
 }
